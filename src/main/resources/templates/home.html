@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:insert="~{layout/layout}" th:with="titulo='Home'">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +8,26 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div th:replace="~{/fragments/navbar :: navmenu}"></div>
-<h1>BEM VINDO AO CARAMELO DA SORTE, AU AU!</h1>
+<div layout:fragment="content">
+
+    <h2>Caramelo da Sorte</h2>
+
+    <p>Este é o Bitbank, o seu banco digital muito mais acessível.</p>
+
+    <div>Como administrador, você poderá:</div>
+    <ul>
+        <li>Adicionar ou consultar correntistas cadastrados use o menu <strong>Correntistas</strong></li>
+        <li>Adicionar ou consultar contas cadastradas use o menu <strong>Contas</strong></li>
+    </ul>
+
+    <div>Como cliente, você poderá realizar operações na sua conta:</div>
+    <ul>
+        <li>Realizar créditos</li>
+        <li>Realizar pagamentos</li>
+    </ul>
+</div>
+
+<!--<div th:replace="~{/fragments/navbar :: navmenu}"></div>-->
+<!--<h1>BEM VINDO AO CARAMELO DA SORTE, AU AU!</h1>-->
 </body>
 </html>
