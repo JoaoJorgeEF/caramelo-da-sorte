@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Admin extends BaseEntity<Long> {
     @Column(nullable = false, length = 70)
     public String nome;
-    
+
     @OneToOne
     @JoinColumn(name = "username")
     private Usuario user;

@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:insert="~{layout/layout}" th:with="titulo='Home'">
 <head>
     <meta charset="UTF-8">
-    <title>CARAMELO DA SORTE</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
 </head>
 <body>
-<h1>BEM VINDO AO CARAMELO DA SORTE, AU AU!</h1>
+<div layout:fragment="navmenu">
+    <h1>BEM VINDO AO CARAMELO DA SORTE, AU AU!</h1>
+</div>
+<!--    <div>-->
+<!--        <nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">-->
+<!--            <div style="margin-right: 5px;">-->
+<!--                <span sec:authorize="isAuthenticated()" sec:authentication="name" style="margin-right: 3px; font-size: 0.8em;"></span>-->
+<!--                <a href="#" onclick="document.querySelector('#form-logout').submit()" class="btn btn-outline-secondary my-2 my-sm-0">Sair</a>-->
+<!--                <form id="form-logout" th:action="@{/auth/logout}" method="POST"></form>-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--    </div>-->
 </body>
 </html>
