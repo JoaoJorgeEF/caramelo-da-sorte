@@ -9,17 +9,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div layout:fragment="navmenu">
-    <h1>BEM VINDO AO CARAMELO DA SORTE, AU AU!</h1>
-</div>
-<!--    <div>-->
-<!--        <nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">-->
-<!--            <div style="margin-right: 5px;">-->
-<!--                <span sec:authorize="isAuthenticated()" sec:authentication="name" style="margin-right: 3px; font-size: 0.8em;"></span>-->
-<!--                <a href="#" onclick="document.querySelector('#form-logout').submit()" class="btn btn-outline-secondary my-2 my-sm-0">Sair</a>-->
-<!--                <form id="form-logout" th:action="@{/auth/logout}" method="POST"></form>-->
-<!--            </div>-->
-<!--        </nav>-->
-<!--    </div>-->
+<div th:replace="~{/fragments/navbar :: navmenu}"></div>
+<h1>BEM VINDO AO CARAMELO DA SORTE, AU AU!</h1>
 </body>
 </html>
