@@ -1,0 +1,45 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="titulo='Cadastro do Apostador'">
+
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{/apostadores}" method="POST" th:object="${apostador}">
+        <input type="hidden" th:field="*{id}" />
+
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" th:field="*{nome}" class="form-control" />
+        <p th:if="${#fields.hasErrors('nome')}" th:errorclass="error" th:errors="*{nome}" class="alert alert-danger" /><br /><br />
+
+        <label for="dataDeNascimento" class="form-label">Data de Nascimento:</label>
+        <input type="text" th:field="*{dataDeNascimento}" class="form-control" />
+        <p th:if="${#fields.hasErrors('dataDeNascimento')}" th:errorclass="error" th:errors="*{dataDeNascimento}" class="alert alert-danger" /><br /><br />
+
+        <label for="cpf" class="form-label">CPF:</label>
+        <input type="text" th:field="*{cpf}" class="form-control" />
+        <p th:if="${#fields.hasErrors('cpf')}" th:errorclass="error" th:errors="*{cpf}" class="alert alert-danger" /><br /><br />
+
+        <label for="usuario" class="form-label">Usuário:</label>
+        <input type="text" th:field="*{usuario}" class="form-control" />
+        <p th:if="${#fields.hasErrors('usuario')}" th:errorclass="error" th:errors="*{usuario}" class="alert alert-danger" /><br /><br />
+
+<!--        <label for="user" class="form-label">Usuário:</label>-->
+<!--        <select th:field="*{user}" class="form-select" id="user">-->
+<!--            <option th:each="u : ${users}" th:value="${u.username}" th:text="${u.username}" th:selected="${u.username==user}">-->
+<!--            </option>-->
+<!--        </select> <br />-->
+
+<!--        <input type="checkbox" th:field="*{admin}" class="form-check-input" />-->
+<!--        <label class="form-check-label">-->
+<!--            Administrador-->
+<!--        </label>-->
+
+        <input type="hidden" th:field="*{apostas}" />
+        <input type="hidden" th:field="*{apostasFavoritas}" />
+
+        <br/><br />
+        <input type="submit" value="Salvar" />
+    </form>
+</div>
+</body>
+
+</html>

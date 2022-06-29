@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario extends BaseEntity<Long> {
+
     private String username;
     private String password;
     private Boolean enabled;
