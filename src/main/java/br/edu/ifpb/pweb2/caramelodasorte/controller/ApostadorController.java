@@ -2,13 +2,11 @@ package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.Apostador;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostadorRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +19,9 @@ public class ApostadorController {
 
     @Autowired
     private ApostadorRepository apostadorRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @RequestMapping("/form")
     public ModelAndView getForm(Apostador apostador, ModelAndView mav) {
@@ -36,14 +37,16 @@ public class ApostadorController {
             mav.setViewName("apostadores/form");
             return mav;
         }
+        usuarioRepository.save(apostador.getUser());
         apostadorRepository.save(apostador);
-        mav.setViewName("redirect:apostadores");
+        mav.setViewName("redirect:apostadores/list");
         attrs.addFlashAttribute("mensagem", "Apostador cadastrado com sucesso!");
         return mav;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/list")
     public ModelAndView listAll(ModelAndView mav) {
+        List<Apostador> apostadores = apostadorRepository.findAll();
         mav.addObject("apostadores", apostadorRepository.findAll());
         mav.addObject("menu", "apostadores");
         mav.setViewName("apostadores/list");
@@ -71,7 +74,7 @@ public class ApostadorController {
         System.out.println("sdklfjsdlkfjsdlkjlsdkfjlsdkjfklsdjflk;dsj");
         apostadorRepository.deleteById(id);
         attr.addFlashAttribute("mensagem", "Correntista removido com sucesso!");
-        mav.setViewName("redirect:/correntistas");
+        mav.setViewName("redirect:/apostadores/list");
         return mav;
     }
 

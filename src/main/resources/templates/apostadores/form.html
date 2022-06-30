@@ -1,4 +1,4 @@
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="titulo='Cadastro do Apostador'">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org" layout:decorate="~{layout/layout}" th:with="titulo='Cadastro do Apostador'">
 
 <body>
 <div layout:fragment="content">
@@ -19,8 +19,12 @@
         <p th:if="${#fields.hasErrors('cpf')}" th:errorclass="error" th:errors="*{cpf}" class="alert alert-danger" /><br /><br />
 
         <label for="usuario" class="form-label">Usuário:</label>
-        <input type="text" th:field="*{usuario}" class="form-control" />
-        <p th:if="${#fields.hasErrors('usuario')}" th:errorclass="error" th:errors="*{usuario}" class="alert alert-danger" /><br /><br />
+        <input type="text" th:field="*{user.username}" class="form-control" />
+        <p th:if="${#fields.hasErrors('user.username')}" th:errorclass="error" th:errors="*{user.username}" class="alert alert-danger" /><br /><br />
+
+        <label for="password" class="form-label">Senha:</label>
+        <input type="password" th:field="*{user.password}" class="form-control" />
+        <p th:if="${#fields.hasErrors('user.password')}" th:errorclass="error" th:errors="*{user.password}" class="alert alert-danger" /><br /><br />
 
 <!--        <label for="user" class="form-label">Usuário:</label>-->
 <!--        <select th:field="*{user}" class="form-select" id="user">-->

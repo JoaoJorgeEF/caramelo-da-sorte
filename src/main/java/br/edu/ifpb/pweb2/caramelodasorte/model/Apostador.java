@@ -24,11 +24,11 @@ public class Apostador extends BaseEntity<Long> {
     @Column(nullable = false, unique = true, length = 11)
     public String cpf;
 
-//    @OneToOne
-//    @JoinColumn(name = "username")
-    @Column(name = "usuario", nullable = false, length = 40)
-//    private Usuario user;
-    private String usuario;
+    @OneToOne
+    @JoinColumn(name = "username")
+    //@Column(name = "usuario", nullable = false, length = 40)
+    private Usuario user;
+    //private String usuario;
 
     @OneToMany(mappedBy = "apostador")
     public List<Aposta> apostas;
