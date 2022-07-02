@@ -2,9 +2,11 @@ package br.edu.ifpb.pweb2.caramelodasorte.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @MappedSuperclass
+
 public abstract class BaseEntity<ID extends Serializable> implements Serializable {
 
     @Id

@@ -1,0 +1,45 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org"  layout:decorate="~{layout/layout}" th:with="titulo='Apostas'">
+
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{/apostas/form}" method="GET">
+        <button class="btn btn-primary" type="submit">Apostar</button>
+    </form>
+    <br />
+
+    <div th:if="${not #lists.isEmpty(apostas)}">
+        <div th:text="'Total ' + ${#lists.size(apostadores)} + ' registros'" style="text-align: right; color: gray; font-size: 0.85em;" />
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Preço</th>
+                <th>Data Nascimento</th>
+                <th>CPF</th>
+                <th>Usuário</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="aposta : ${apostas}">
+                <td><a th:href="@{/apostadores/{id}(id=${apostador.id})}" th:text="${apostador.nome}"></a></td>
+                <td th:text="${apostador.dataDeNascimento}"></td>
+                <td th:text="${apostador.cpf}"></td>
+                <!--                <td>-->
+                <!--                    <img th:if="${correntista.admin}" th:src="@{/imagens/admin.png}" />-->
+                <!--                    <img th:unless="${correntista.admin}" th:src="@{/imagens/naoadmin.png}" />-->
+                <!--                </td>-->
+                <td th:text="${apostador.user != null ? apostador.user.username : 'Sem usuário'}"></td>
+                <td>
+                    <form th:action="@{/apostadores/{id}/delete(id=${apostador.id})}">
+                        <button type="submit" class="btn btn-primary btn-sm" }>Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+
+</html>

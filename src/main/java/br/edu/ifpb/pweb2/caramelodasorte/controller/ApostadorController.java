@@ -55,7 +55,7 @@ public class ApostadorController {
     }
 
     @RequestMapping("/{id}")
-    public ModelAndView getCorrentistaById(@PathVariable(value = "id") Long id, ModelAndView mav) {
+    public ModelAndView getApostadorById(@PathVariable(value = "id") Long id, ModelAndView mav) {
         Apostador apostador = null;
         Optional<Apostador> opApostador = apostadorRepository.findById(id);
         if (opApostador.isPresent()) {

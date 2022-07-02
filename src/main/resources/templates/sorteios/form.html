@@ -1,0 +1,38 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org" layout:decorate="~{layout/layout}" th:with="titulo='Cadastro de Sorteio'">
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{/sorteios}" method="POST" th:object="${sorteio}">
+        <input type="hidden" th:field="*{id}" />
+
+        <label for="valor" class="form-label">Valor do prêmio:</label>
+        <input type="text" th:field="*{valor}" class="form-control" />
+        <p th:if="${#fields.hasErrors('valor')}" th:errorclass="error" th:errors="*{valor}" class="alert alert-danger" /><br /><br />
+
+<!--        <label for="qtdeDezenas" class="form-label">Quantidade de dezenas a sortear:</label>-->
+<!--        <select th:field="*{qtdeDezenas}" class="form-select">-->
+<!--            <option th:each="i : ${#numbers.sequence(6, 10)}" th:value="${i}" th:text="${i}">-->
+<!--            </option>-->
+<!--        </select>-->
+<!--        <p th:if="${#fields.hasErrors('qtdeDezenas')}" th:errorclass="error" th:errors="*{qtdeDezenas}" class="alert alert-danger" /><br /><br />-->
+
+        <label for="dataHora" class="form-label">Data do sorteio:</label>
+        <input type="date" id="dataHora" name="dataHora" th:field="*{dataHora}" class="form-control" />
+        <p th:if="${#fields.hasErrors('dataHora')}" th:errorclass="error" th:errors="*{dataHora}" class="alert alert-danger" /><br /><br />
+
+        <label for="hora" class="form-label">Hora do sorteio:</label>
+        <input type="time" id="hora" name="hora" th:field="*{hora}" class="form-control" />
+        <p th:if="${#fields.hasErrors('hora')}" th:errorclass="error" th:errors="*{hora}" class="alert alert-danger" /><br /><br />
+
+        <input type="hidden" th:field="*{dezenasSorteadas}" />
+
+        <br/><br />
+        <input type="submit" value="Salvar" />
+    </form>
+</div>
+
+</body>
+
+</html>
+
+

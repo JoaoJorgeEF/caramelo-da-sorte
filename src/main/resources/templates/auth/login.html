@@ -1,24 +1,41 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Log in</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
+<!doctype html>
+<html lang="pt_BR">
+
+<head th:replace="~{/fragments/navbar :: headfiles('Log In', ~{::link})}">
+
+    <link th:href="@{/css/auth.css}" rel="stylesheet">
+
 </head>
-<body>
+
+<body class="text-center">
+
 <form class="form-signin" th:action="@{/auth}" method="POST">
     <div class="centered">
+        <img class="mb-4" th:src="@{/imagens/logo.png}" alt="Logo do Bitbank">
+        <h1 class="h3 mb-3 font-weight-normal autentique">Por favor, autentique-se</h1>
+
+        <div th:if="${not #strings.isEmpty(mensagem)}"
+             th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+             class="alert alert-danger alert-dismissible fade show" role="alert">
+
+        </div>
+
         <label for="email" class="sr-only" style="text-align: left; display: block;">Login</label>
         <input id="email" type="text" class="form-control input-login" placeholder="Login" required autofocus name="username">
 
         <label for="password" class="sr-only mt-3" style="text-align: left; display: block;">Senha</label>
         <input id="password" type="password" class="form-control input-login" placeholder="Senha" required name="password">
 
-        <button class="btn btn-lg btn-primary" type="submit">Log in</button>
+        <div class="checkbox mb-3">
+            <label> <input type="checkbox" value="lembrar">
+                Lembrar-me
+            </label>
+        </div>
+
+        <button class="btn btn-lg btn-primary" type="submit">Entrar</button>
     </div>
 </form>
+
 </body>
+
 </html>

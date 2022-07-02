@@ -3,11 +3,9 @@ package br.edu.ifpb.pweb2.caramelodasorte.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +23,12 @@ public class Sorteio extends BaseEntity<Long> {
     @ElementCollection
     public List<Integer> dezenasSorteadas;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_hora", nullable = false, columnDefinition = "DATE")
     public Date dataHora;
+
+    public String hora;
+
+    @OneToMany(mappedBy = "sorteio")
+    public List<Aposta> apostas;
 }
