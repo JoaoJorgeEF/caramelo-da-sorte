@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/apostas")
@@ -20,21 +21,18 @@ public class ApostaController {
     @Autowired
     private ApostaService service;
 
-//    @RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-//    public String cadastrar(@RequestBody Admin aposta){
-//        return aposta.toString();
-//    }
+    @RequestMapping("/form")
+    public ModelAndView getForm(Aposta aposta, ModelAndView mav) {
+        mav.addObject("aposta", aposta);
+        mav.setViewName("apostas/form");
+        return mav;
+    }
 
-    @PostMapping("/preSave")
-    public ModelAndView preSave(@Valid Aposta aposta, BindingResult validation,
-                                ModelAndView mav, RedirectAttributes attrs) {
-        if (validation.hasErrors()) {
-            mav.setViewName("apostas/form");
-            return mav;
-        }
-        service.preSave(aposta);
-        mav.setViewName("redirect:apostas/form");
-        attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
+    @RequestMapping("/form-dezenas")
+    public ModelAndView getFormDezenas(Aposta aposta, ModelAndView mav) {
+        System.out.println(aposta);
+        mav.addObject("aposta", aposta);
+        mav.setViewName("apostas/form-dezenas");
         return mav;
     }
 
@@ -45,9 +43,34 @@ public class ApostaController {
             mav.setViewName("apostas/form");
             return mav;
         }
+        if (aposta.getDezenas().isEmpty()){
+            aposta = service.preSave(aposta);
+            mav.addObject("aposta", aposta);
+            mav.setViewName("redirect:apostas/form-dezenas");
+            attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
+            return mav;
+        }
+
         service.save(aposta);
-        mav.setViewName("redirect:apostas/lista");
+        mav.setViewName("redirect:apostas/list");
         attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
         return mav;
     }
+
+    @GetMapping("/list")
+    public ModelAndView listAll(ModelAndView mav) {
+        mav.addObject("apostas", service.getAll());
+        mav.addObject("menu", "apostas");
+        mav.setViewName("apostas/list");
+        return mav;
+    }
+
+    @RequestMapping("/{id}/delete")
+    public ModelAndView deleteById(@PathVariable("id") Long id, ModelAndView mav, RedirectAttributes attr) {
+        service.delete(id);
+        attr.addFlashAttribute("mensagem", "Sorteio removido com sucesso!");
+        mav.setViewName("redirect:/apostas/list");
+        return mav;
+    }
+
 }

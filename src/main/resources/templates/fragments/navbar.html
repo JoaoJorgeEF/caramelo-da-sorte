@@ -20,6 +20,10 @@
         <div class="navbar-nav">
             <span class="logo-font"><img th:src="@{/imagens/logo.png}" width="50" height="50"/></span>
             <a th:classappend="${menu == 'home'} ? 'active'" class="nav-item nav-link" th:href="@{/home}">Home</a>
+
+            <a sec:authorize="isAuthenticated()" th:classappend="${menu == 'apostas'} ? 'active'" class="nav-item nav-link" th:href="@{/apostas/list}">
+                Apostas
+            </a>
             <a sec:authorize="hasRole('ADMIN')" th:classappend="${menu == 'apostadores'} ? 'active'" class="nav-item nav-link" th:href="@{/apostadores/list}">
                 Apostadores
             </a>

@@ -1,8 +1,6 @@
 package br.edu.ifpb.pweb2.caramelodasorte.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +11,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Aposta extends BaseEntity<Long> {
 
     @ElementCollection
@@ -28,4 +28,6 @@ public class Aposta extends BaseEntity<Long> {
 
     @ManyToOne
     public Sorteio sorteio;
+
+
 }
