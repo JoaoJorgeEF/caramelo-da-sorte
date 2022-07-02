@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ public class ApostadorController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView save(Apostador apostador, BindingResult validation,
+    public ModelAndView save(@Valid Apostador apostador, BindingResult validation,
                              ModelAndView mav, RedirectAttributes attrs) {
         if (validation.hasErrors()) {
             mav.setViewName("apostadores/form");

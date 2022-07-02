@@ -3,6 +3,7 @@ package br.edu.ifpb.pweb2.caramelodasorte.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,6 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableAutoConfiguration
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -28,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/css/**", "/imagens/**").permitAll()
+                .antMatchers("/apostadores").hasRole("ADMIN")
                 .anyRequest().authenticated().and()
                 .formLogin(form -> form.loginPage("/auth").defaultSuccessUrl("/home", true).permitAll()).logout(logout -> logout.logoutUrl("/auth/logout"));
     }
@@ -38,9 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .passwordEncoder(encoder)
-                .withUser(User.builder().username("admin").password(encoder.encode("amdin123"))
-                        .roles("CLIENTE", "ADMIN").build());
+                .passwordEncoder(encoder);
+             //   .withUser(User.builder().username("admin").password(encoder.encode("amdin123"))
+               //         .roles("CLIENTE", "ADMIN").build());
         // .withUser(
         // User.builder().username("turing").password(encoder.encode("enignma")).roles("CLIENTE").build())
         // .withUser(User.builder().username("sagan").password(encoder.encode("cosmos")).roles("CLIENTE").build());
@@ -51,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     protected UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder().username("admin").password("admin").roles("ADM").build();
+        UserDetails user = User.withDefaultPasswordEncoder().username("teste").password("teste").roles("ADM").build();
         return new InMemoryUserDetailsManager(user);
     }
 }
