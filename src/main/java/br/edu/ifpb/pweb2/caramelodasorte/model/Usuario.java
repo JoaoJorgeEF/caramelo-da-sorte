@@ -3,6 +3,7 @@ package br.edu.ifpb.pweb2.caramelodasorte.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -21,5 +22,6 @@ public class Usuario extends BaseEntity<Long> {
     private Boolean enabled;
 
     @OneToMany(mappedBy = "username")
+    @ToString.Exclude
     List<Authority> authorities;
 }

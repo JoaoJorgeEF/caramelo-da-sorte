@@ -3,7 +3,9 @@ package br.edu.ifpb.pweb2.caramelodasorte.controller;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Admin;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
+import br.edu.ifpb.pweb2.caramelodasorte.model.Usuario;
 import br.edu.ifpb.pweb2.caramelodasorte.service.ApostaService;
+import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -20,6 +24,9 @@ public class ApostaController {
 
     @Autowired
     private ApostaService service;
+
+    @Autowired
+    private SorteioService sorteioService;
 
     @RequestMapping("/form")
     public ModelAndView getForm(Aposta aposta, ModelAndView mav) {
@@ -31,7 +38,7 @@ public class ApostaController {
     @RequestMapping("/form-dezenas")
     public ModelAndView getFormDezenas(Aposta aposta, ModelAndView mav) {
         System.out.println(aposta);
-        mav.addObject("aposta", aposta);
+        mav.addObject("apostaDezena", aposta);
         mav.setViewName("apostas/form-dezenas");
         return mav;
     }
@@ -44,9 +51,10 @@ public class ApostaController {
             return mav;
         }
         if (aposta.getDezenas().isEmpty()){
-            aposta = service.preSave(aposta);
-            mav.addObject("aposta", aposta);
-            mav.setViewName("redirect:apostas/form-dezenas");
+            Aposta ret = service.preSave(aposta);
+            System.out.println(ret);
+            mav.addObject("apostaDezena", ret);
+            mav.setViewName("apostas/form-dezenas");
             attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
             return mav;
         }
@@ -71,6 +79,11 @@ public class ApostaController {
         attr.addFlashAttribute("mensagem", "Sorteio removido com sucesso!");
         mav.setViewName("redirect:/apostas/list");
         return mav;
+    }
+
+    @ModelAttribute("sorteios")
+    public List<Sorteio> getUserOptions() {
+        return sorteioService.getAllWithFutureDate(new Date(System.currentTimeMillis()));
     }
 
 }

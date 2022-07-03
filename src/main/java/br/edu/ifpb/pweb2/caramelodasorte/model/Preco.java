@@ -14,4 +14,25 @@ public enum Preco {
     Preco(BigDecimal preco){
         this.preco = preco;
     }
+
+    public static Preco fromQtdeDezenas(int qtdeDezenas){
+        switch (qtdeDezenas){
+            case 6:
+                return Preco.SEIS;
+            case 7:
+                return Preco.SETE;
+            case 8:
+                return Preco.OITO;
+            case 9:
+                return Preco.NOVE;
+            case 10:
+                return Preco.DEZ;
+            default:
+                return null;
+        }
+    }
+
+    public BigDecimal getValue(){
+        return this.preco;
+    }
 }

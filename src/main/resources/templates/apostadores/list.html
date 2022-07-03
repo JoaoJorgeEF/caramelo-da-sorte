@@ -23,12 +23,8 @@
             <tbody>
             <tr th:each="apostador : ${apostadores}">
                 <td><a th:href="@{/apostadores/{id}(id=${apostador.id})}" th:text="${apostador.nome}"></a></td>
-                <td th:text="${apostador.dataDeNascimento}"></td>
+                <td th:text="${#dates.format(apostador.dataDeNascimento, 'dd/MM/yyyy')}"></td>
                 <td th:text="${apostador.cpf}"></td>
-<!--                <td>-->
-<!--                    <img th:if="${correntista.admin}" th:src="@{/imagens/admin.png}" />-->
-<!--                    <img th:unless="${correntista.admin}" th:src="@{/imagens/naoadmin.png}" />-->
-<!--                </td>-->
                 <td th:text="${apostador.user != null ? apostador.user.username : 'Sem usuário'}"></td>
                 <td>
                     <form th:action="@{/apostadores/{id}/delete(id=${apostador.id})}">

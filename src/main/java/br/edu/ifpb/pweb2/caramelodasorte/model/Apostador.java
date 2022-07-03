@@ -3,6 +3,7 @@ package br.edu.ifpb.pweb2.caramelodasorte.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +19,7 @@ public class Apostador extends BaseEntity<Long> {
     @Column(nullable = false, length = 70)
     public String nome;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_de_nascimento", nullable = false, columnDefinition = "DATE")
     public Date dataDeNascimento;
 
@@ -26,9 +28,7 @@ public class Apostador extends BaseEntity<Long> {
 
     @OneToOne
     @JoinColumn(name = "username")
-    //@Column(name = "usuario", nullable = false, length = 40)
     private Usuario user;
-    //private String usuario;
 
     @OneToMany(mappedBy = "apostador")
     public List<Aposta> apostas;

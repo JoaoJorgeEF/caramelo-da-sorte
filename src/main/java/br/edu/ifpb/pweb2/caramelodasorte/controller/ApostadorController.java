@@ -1,8 +1,11 @@
 package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.Apostador;
+import br.edu.ifpb.pweb2.caramelodasorte.model.Authority;
+import br.edu.ifpb.pweb2.caramelodasorte.model.Usuario;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostadorRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.UsuarioRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +42,10 @@ public class ApostadorController {
             mav.setViewName("apostadores/form");
             return mav;
         }
-        usuarioRepository.save(apostador.getUser());
+        Optional<Usuario> oUser = usuarioRepository.findById(apostador.getUser().getId());
+        if (oUser.isPresent()){
+            apostador.setUser(oUser.get());
+        }
         apostadorRepository.save(apostador);
         mav.setViewName("redirect:apostadores/list");
         attrs.addFlashAttribute("mensagem", "Apostador cadastrado com sucesso!");
@@ -64,7 +71,6 @@ public class ApostadorController {
             mav.setViewName("apostadores/form");
         } else {
             mav.addObject("mensagem", "Apostador com id=" + id + " não encontrado!");
-//            mav.setViewName("contas/list");
             mav.setViewName("apostadores/list");
         }
         return mav;
@@ -72,16 +78,15 @@ public class ApostadorController {
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteById(@PathVariable("id") Long id, ModelAndView mav, RedirectAttributes attr) {
-        System.out.println("sdklfjsdlkfjsdlkjlsdkfjlsdkjfklsdjflk;dsj");
         apostadorRepository.deleteById(id);
-        attr.addFlashAttribute("mensagem", "Correntista removido com sucesso!");
+        attr.addFlashAttribute("mensagem", "Apostador removido com sucesso!");
         mav.setViewName("redirect:/apostadores/list");
         return mav;
     }
 
-//    @ModelAttribute("users")
-//    public List<User> getUserOptions() {
-//        return userRepository.findByEnabledTrue();
-//    }
+    @ModelAttribute("usuarios")
+    public List<Usuario> getUserOptions() {
+        return usuarioRepository.findByEnabledTrue();
+    }
 
 }

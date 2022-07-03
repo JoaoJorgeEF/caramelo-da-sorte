@@ -5,10 +5,7 @@ import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class SorteioService {
@@ -37,6 +34,11 @@ public class SorteioService {
 
         return null;
     }
+
+    public List<Sorteio> getAllWithFutureDate(Date date){
+        return repo.findByDataHoraAfter(date);
+    }
+
     public void delete(Long id){
         repo.deleteById(id);
     }

@@ -11,7 +11,7 @@
         <p th:if="${#fields.hasErrors('nome')}" th:errorclass="error" th:errors="*{nome}" class="alert alert-danger" /><br /><br />
 
         <label for="dataDeNascimento" class="form-label">Data de Nascimento:</label>
-        <input type="text" th:field="*{dataDeNascimento}" class="form-control" />
+        <input type="date" id="dataDeNascimento" name="dataDeNascimento" th:field="*{dataDeNascimento}" class="form-control" />
         <p th:if="${#fields.hasErrors('dataDeNascimento')}" th:errorclass="error" th:errors="*{dataDeNascimento}" class="alert alert-danger" /><br /><br />
 
         <label for="cpf" class="form-label">CPF:</label>
@@ -19,23 +19,11 @@
         <p th:if="${#fields.hasErrors('cpf')}" th:errorclass="error" th:errors="*{cpf}" class="alert alert-danger" /><br /><br />
 
         <label for="usuario" class="form-label">Usuário:</label>
-        <input type="text" th:field="*{user.username}" class="form-control" />
-        <p th:if="${#fields.hasErrors('user.username')}" th:errorclass="error" th:errors="*{user.username}" class="alert alert-danger" /><br /><br />
+        <select th:field="*{user.id}" class="form-select" id="usuario">
+            <option th:each="u : ${usuarios}" th:value="${u.id}" th:text="${u.username}" th:selected="${u.username==user}">
+            </option>
+        </select> <br />
 
-        <label for="password" class="form-label">Senha:</label>
-        <input type="password" th:field="*{user.password}" class="form-control" />
-        <p th:if="${#fields.hasErrors('user.password')}" th:errorclass="error" th:errors="*{user.password}" class="alert alert-danger" /><br /><br />
-
-<!--        <label for="user" class="form-label">Usuário:</label>-->
-<!--        <select th:field="*{user}" class="form-select" id="user">-->
-<!--            <option th:each="u : ${users}" th:value="${u.username}" th:text="${u.username}" th:selected="${u.username==user}">-->
-<!--            </option>-->
-<!--        </select> <br />-->
-
-<!--        <input type="checkbox" th:field="*{admin}" class="form-check-input" />-->
-<!--        <label class="form-check-label">-->
-<!--            Administrador-->
-<!--        </label>-->
 
         <input type="hidden" th:field="*{apostas}" />
         <input type="hidden" th:field="*{apostasFavoritas}" />
