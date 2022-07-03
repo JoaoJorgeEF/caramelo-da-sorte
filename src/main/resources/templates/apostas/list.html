@@ -13,6 +13,7 @@
         <table class="table table-striped table-hover">
             <thead>
             <tr>
+                <th>Número</th>
                 <th>Preço</th>
                 <th>Quantidade de Dezenas</th>
                 <th>Sorteio</th>
@@ -22,7 +23,8 @@
             <tbody>
             <tr th:each="aposta : ${apostas}">
                 <td><a th:href="@{/apostas/{id}(id=${aposta.id})}" th:text="${aposta.id}"></a></td>
-                <td th:text="${aposta.preco}"></td>
+<!--                <td th:text="${Preco(aposta.preco).values()}"></td>-->
+                <td th:text="${aposta.preco.getValue()}"></td>
                 <td th:text="${aposta.qtdeDezenas}"></td>
                 <td>
                     <form th:action="@{/apostas/{id}/delete(id=${aposta.id})}">

@@ -31,7 +31,7 @@ public class ApostaController {
     @RequestMapping("/form-dezenas")
     public ModelAndView getFormDezenas(Aposta aposta, ModelAndView mav) {
         System.out.println(aposta);
-        mav.addObject("aposta", aposta);
+        mav.addObject("apostaDezena", aposta);
         mav.setViewName("apostas/form-dezenas");
         return mav;
     }
@@ -44,9 +44,10 @@ public class ApostaController {
             return mav;
         }
         if (aposta.getDezenas().isEmpty()){
-            aposta = service.preSave(aposta);
-            mav.addObject("aposta", aposta);
-            mav.setViewName("redirect:apostas/form-dezenas");
+            Aposta ret = service.preSave(aposta);
+            mav.addObject("apostaDezena", ret);
+            System.out.println(ret);
+            mav.setViewName("apostas/form-dezenas");
             attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
             return mav;
         }
