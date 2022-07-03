@@ -3,7 +3,9 @@ package br.edu.ifpb.pweb2.caramelodasorte.service;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Preco;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
+import br.edu.ifpb.pweb2.caramelodasorte.model.Usuario;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,15 @@ public class ApostaService {
     @Autowired
     private ApostaRepository repo;
 
+    @Autowired
+    private SorteioRepository sorteioRepo;
+
     public List<Aposta> getAll(){
         return repo.findAll();
     }
 
     public Aposta preSave(Aposta aposta) {
+
         aposta.preco = Preco.fromQtdeDezenas(aposta.qtdeDezenas);
         aposta.dezenas = new ArrayList<Integer>();
         for (int i = 0; i < aposta.getQtdeDezenas(); i++){

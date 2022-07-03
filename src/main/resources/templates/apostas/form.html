@@ -15,6 +15,12 @@
         </select>
         <p th:if="${#fields.hasErrors('qtdeDezenas')}" th:errorclass="error" th:errors="*{qtdeDezenas}" class="alert alert-danger" /><br /><br />
 
+        <label for="sorteio" class="form-label">Sorteio:</label>
+        <select th:field="*{sorteio.id}" class="form-select" id="sorteio">
+            <option th:each="u : ${sorteios}" th:value="${u.id}" th:text="${#dates.format(u.dataHora, 'dd/MM/yyyy')}">
+            </option>
+        </select> <br />
+
         <input type="submit" value="Gerar dezenas" />
     </form>
 </div>
