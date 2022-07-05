@@ -2,6 +2,7 @@ package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.*;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostadorRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.service.ApostaService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ApostaController {
 
     @Autowired
     private SorteioService sorteioService;
+
+    @Autowired
+    private SorteioRepository sorteioRepository;
 
     @Autowired
     private ApostadorRepository apostadorRepository;
@@ -55,8 +59,6 @@ public class ApostaController {
         if (aposta.getDezenas().isEmpty()){
             Apostador apostador = this.getCurrentApostador();
             aposta.setApostador(apostador);
-            Sorteio sorteio = sorteioService.get(aposta.getSorteio().getId());
-            aposta.setSorteio(sorteio);
             Aposta ret = service.preSave(aposta);
             mav.addObject("apostaDezena", service.get(aposta.getId()));
             mav.setViewName("apostas/form-dezenas");
@@ -140,7 +142,7 @@ public class ApostaController {
     }
 
     @ModelAttribute("sorteios")
-    public List<Sorteio> getUserOptions() {
+    public List<Sorteio> getSorteiosOptions() {
         return sorteioService.getAllWithFutureDate(new Date(System.currentTimeMillis()));
     }
 
@@ -148,5 +150,10 @@ public class ApostaController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Apostador apostador = apostadorRepository.findByUserUsername(auth.getName());
         return apostador;
+    }
+
+    private Sorteio getSorteio(Long id){
+        Sorteio sorteio = sorteioRepository.getReferenceById(id);
+        return sorteio;
     }
 }
