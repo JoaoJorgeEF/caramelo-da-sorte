@@ -1,14 +1,13 @@
 package br.edu.ifpb.pweb2.caramelodasorte.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "admins")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Admin extends BaseEntity<Long> {

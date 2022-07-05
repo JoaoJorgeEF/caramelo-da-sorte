@@ -49,6 +49,7 @@ public class SorteioController {
         }
         if (sorteio.getId() != null){
             service.saveDezenas(sorteio);
+            service.checkWinner(sorteio.getId());
         } else{
             service.save(sorteio);
         }
@@ -65,7 +66,9 @@ public class SorteioController {
             dezenas.add(new Random().nextInt(60) + 1);
         }
         sorteio.setDezenasSorteadas(dezenas);
+
         service.saveDezenas(sorteio);
+        service.checkWinner(id);
 
         mav.addObject("sorteios", service.getAll());
         mav.addObject("menu", "sorteios");

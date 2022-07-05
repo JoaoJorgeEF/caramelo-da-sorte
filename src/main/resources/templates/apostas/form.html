@@ -7,6 +7,7 @@
         <input type="hidden" th:field="*{dezenas}" />
         <input type="hidden" th:field="*{preco}" />
         <input type="hidden" th:field="*{apostador}" />
+        <input type="hidden" th:field="*{dataDeRegistro}" />
 
         <label for="qtdeDezenas" class="form-label">Quantidade de dezenas a apostar:</label>
         <select th:field="*{qtdeDezenas}" class="form-select">
@@ -17,7 +18,7 @@
 
         <label for="sorteio" class="form-label">Sorteio:</label>
         <select th:field="*{sorteio}" class="form-select" id="sorteio">
-            <option th:each="u : ${sorteios}" th:value="${u.id}" th:text="${#dates.format(u.dataHora, 'dd/MM/yyyy')}">
+            <option th:each="u : ${sorteios}" th:value="${u.id}" th:text="${#dates.format(u.dataHora, 'dd/MM/yyyy') + '- Prêmio R$ ' + u.valor }">
             </option>
         </select> <br />
 

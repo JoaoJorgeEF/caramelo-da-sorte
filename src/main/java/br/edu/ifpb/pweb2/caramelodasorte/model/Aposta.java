@@ -1,14 +1,15 @@
 package br.edu.ifpb.pweb2.caramelodasorte.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "apostas")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,6 +22,10 @@ public class Aposta extends BaseEntity<Long> {
     @Column(name = "qtde_dezenas", nullable = false)
     public int qtdeDezenas;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "data_de_registro", nullable = false, columnDefinition = "DATE")
+    public Date dataDeRegistro;
+
     public Preco preco;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -30,4 +35,6 @@ public class Aposta extends BaseEntity<Long> {
     public Sorteio sorteio;
 
     public boolean isFavorita;
+
+    public boolean isVencedora;
 }

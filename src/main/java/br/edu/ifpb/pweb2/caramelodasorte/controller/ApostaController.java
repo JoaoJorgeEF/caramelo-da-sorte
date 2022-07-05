@@ -2,6 +2,7 @@ package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.*;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostadorRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.service.ApostaService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,6 @@ public class ApostaController {
         if (aposta.getDezenas().isEmpty()){
             Apostador apostador = this.getCurrentApostador();
             aposta.setApostador(apostador);
-            Sorteio sorteio = sorteioService.get(aposta.getSorteio().getId());
-            aposta.setSorteio(sorteio);
             Aposta ret = service.preSave(aposta);
             mav.addObject("apostaDezena", service.get(aposta.getId()));
             mav.setViewName("apostas/form-dezenas");
@@ -77,7 +76,9 @@ public class ApostaController {
 
         service.save(foundAposta);
 
-        mav.addObject("apostas", service.getAll());
+        mav.addObject("apostas", service.getAll().stream()
+                .filter(a -> a.getApostador() != null && this.getCurrentApostador() != null &&
+                        a.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostas");
         mav.setViewName("apostas/list");
         return mav;
@@ -90,7 +91,9 @@ public class ApostaController {
 
         service.save(foundAposta);
 
-        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true).collect(Collectors.toList()));
+        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true &&
+                f.getApostador() != null && this.getCurrentApostador() != null &&
+                f.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostasFavoritas");
         mav.setViewName("apostas/list-favoritas");
         return mav;
@@ -101,7 +104,7 @@ public class ApostaController {
         Aposta foundAposta = service.get(id);
 
         Aposta aposta = new Aposta();
-        aposta.setDezenas(foundAposta.getDezenas());
+        aposta.setDezenas(new ArrayList<Integer>(foundAposta.getDezenas()));
         aposta.setPreco(foundAposta.getPreco());
         aposta.setApostador(foundAposta.getApostador());
         aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
@@ -109,7 +112,9 @@ public class ApostaController {
 
         service.save(aposta);
 
-        mav.addObject("apostas", service.getAll());
+        mav.addObject("apostas", service.getAll().stream()
+                .filter(a -> a.getApostador() != null && this.getCurrentApostador() != null &&
+                        a.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostas");
         mav.setViewName("apostas/list");
         return mav;
@@ -117,7 +122,9 @@ public class ApostaController {
 
     @GetMapping("/list")
     public ModelAndView listAll(ModelAndView mav) {
-        mav.addObject("apostas", service.getAll());
+        mav.addObject("apostas", service.getAll().stream()
+                .filter(a -> a.getApostador() != null && this.getCurrentApostador() != null &&
+                        a.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostas");
         mav.setViewName("apostas/list");
         return mav;
@@ -125,7 +132,9 @@ public class ApostaController {
 
     @GetMapping("/list-favoritas")
     public ModelAndView listFavoritas(ModelAndView mav) {
-        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true).collect(Collectors.toList()));
+        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true &&
+                f.getApostador() != null && this.getCurrentApostador() != null &&
+                f.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostasFavoritas");
         mav.setViewName("apostas/list-favoritas");
         return mav;
@@ -140,32 +149,14 @@ public class ApostaController {
     }
 
     @ModelAttribute("sorteios")
-    public List<Sorteio> getUserOptions() {
+    public List<Sorteio> getSorteiosOptions() {
         return sorteioService.getAllWithFutureDate(new Date(System.currentTimeMillis()));
     }
 
     private Apostador getCurrentApostador(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Apostador apostador = apostadorRepository.findByUserUsername(auth.getName());
+        String name = auth.getName();
+        Apostador apostador = apostadorRepository.findByUserUsername(name);
         return apostador;
     }
-
-//    @RequestMapping(value = "/{id}/reaproveitar-favorita/{apostadorId}")
-//    public ModelAndView saveFavorita(@PathVariable(value = "id") Long id, @PathVariable(value = "id") Long apostadorId, ModelAndView mav) {
-//        Aposta foundAposta = service.get(id);
-//        Aposta aposta = new Aposta();
-//        aposta.setDezenas(foundAposta.getDezenas());
-//        aposta.setPreco(foundAposta.getPreco());
-//        aposta.setApostador(foundAposta.getApostador());
-//        aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
-//        aposta.setSorteio(foundAposta.getSorteio());
-//
-//        service.save(aposta);
-//
-//        mav.addObject("apostas", service.getAll());
-//        mav.addObject("menu", "apostas");
-//        mav.setViewName("apostas/list");
-//        return mav;
-//    }
-
 }

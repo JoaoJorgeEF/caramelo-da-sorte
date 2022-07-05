@@ -24,9 +24,10 @@
             <tr>
                 <th>Número</th>
                 <th>Preço</th>
-                <th>Quantidade de Dezenas</th>
+                <th>Qtd de Dezenas</th>
                 <th>Dezenas</th>
                 <th>Sorteio</th>
+                <th>Ganhou?</th>
             </tr>
             </thead>
             <tbody>
@@ -36,6 +37,7 @@
                 <td th:text="${aposta.qtdeDezenas}"></td>
                 <td><span th:each="dezena : ${aposta.dezenas}" th:text="${dezena + ' | ' }"></span></td>
                 <td th:text="${#dates.format(aposta.sorteio.dataHora, 'dd/MM/yyyy')}"></td>
+                <td th:text="${aposta.isVencedora} ? 'VENCEDOR' : ''"></td>
                 <td>
                     <form th:action="@{/apostas/{id}/delete(id=${aposta.id})}">
                         <button type="submit" class="btn btn-primary btn-sm" }>Excluir</button>

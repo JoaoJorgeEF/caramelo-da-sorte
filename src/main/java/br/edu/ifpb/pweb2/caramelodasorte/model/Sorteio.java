@@ -1,8 +1,6 @@
 package br.edu.ifpb.pweb2.caramelodasorte.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,7 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "sorteios")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sorteio extends BaseEntity<Long> {

@@ -16,6 +16,7 @@
                 <th>Número</th>
                 <th>Data</th>
                 <th>Hora</th>
+                <th>Prêmio</th>
                 <th>Dezenas Sorteadas</th>
             </tr>
             </thead>
@@ -24,6 +25,7 @@
                 <td><a th:href="@{/sorteios/{id}(id=${sorteio.id})}" th:text="${sorteio.id}"></a></td>
                 <td th:text="${#dates.format(sorteio.dataHora, 'dd/MM/yyyy')}"></td>
                 <td th:text="${sorteio.hora}"></td>
+                <td th:text="${sorteio.valor}"></td>
                 <td><span th:each="dezena : ${sorteio.dezenasSorteadas}" th:text="${dezena + ' | ' }"></span></td>
                 <td>
                     <form th:action="@{/sorteios/{id}/delete(id=${sorteio.id})}">

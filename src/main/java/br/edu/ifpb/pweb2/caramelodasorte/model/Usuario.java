@@ -1,9 +1,6 @@
 package br.edu.ifpb.pweb2.caramelodasorte.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -12,7 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario extends BaseEntity<Long> {
