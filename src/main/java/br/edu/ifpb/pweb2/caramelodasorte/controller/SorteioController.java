@@ -1,5 +1,6 @@
 package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
+import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Apostador;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
@@ -28,6 +29,15 @@ public class SorteioController {
     public ModelAndView getForm(Sorteio sorteio, ModelAndView mav) {
         mav.addObject("sorteio", sorteio);
         mav.setViewName("sorteios/form");
+        return mav;
+    }
+
+    @RequestMapping("/{id}/realizar-sorteio")
+    public ModelAndView getFormSortear(@PathVariable(value = "id") Long id, ModelAndView mav) {
+        Sorteio sorteio = service.get(id);
+
+        mav.addObject("sorteioRealizar", sorteio);
+        mav.setViewName("sorteio/{id}/realizar-sorteio");
         return mav;
     }
 

@@ -1,0 +1,24 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org" layout:decorate="~{layout/layout}" th:with="titulo='Cadastro de Sorteio'">
+<body>
+<div layout:fragment="content">
+
+    <form th:action="@{/sorteios}" method="POST" th:object="${sorteioRealizar}">
+        <input type="hidden" th:field="*{id}" />
+        <label class="form-label">Escolha os valores entre 1-60:</label>
+
+        <div th:each="dezena, rowStat : ${sorteioRealizar.dezenas}">
+            <label for="teste" class="form-label"></label>
+            <input type="number" class="form-control" th:field="*{dezenas[__${rowStat.index}__]}" />
+            <p th:if="${#fields.hasErrors('*{dezenas[__${rowStat.index}__]}')}" th:errorclass="error" th:errors="*{*{dezenas[__${rowStat.index}__]}}" class="alert alert-danger" /><br /><br />
+        </div>
+
+        <br/><br />
+        <input type="submit" value="Salvar" />
+    </form>
+</div>
+
+</body>
+
+</html>
+
+
