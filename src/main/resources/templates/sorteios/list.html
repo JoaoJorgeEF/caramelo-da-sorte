@@ -16,6 +16,7 @@
                 <th>Número</th>
                 <th>Data</th>
                 <th>Hora</th>
+                <th>Dezenas Sorteadas</th>
             </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                 <td><a th:href="@{/sorteios/{id}(id=${sorteio.id})}" th:text="${sorteio.id}"></a></td>
                 <td th:text="${#dates.format(sorteio.dataHora, 'dd/MM/yyyy')}"></td>
                 <td th:text="${sorteio.hora}"></td>
+                <td><span th:each="dezena : ${sorteio.dezenasSorteadas}" th:text="${dezena + ' | ' }"></span></td>
                 <td>
                     <form th:action="@{/sorteios/{id}/delete(id=${sorteio.id})}">
                         <button type="submit" class="btn btn-primary btn-sm" }>Excluir</button>
@@ -30,7 +32,12 @@
                 </td>
                 <td>
                     <form th:action="@{/sorteios/{id}/realizar-sorteio(id=${sorteio.id})}">
-                        <button type="submit" class="btn btn-primary btn-sm" }>Realizar sorteio</button>
+                        <button type="submit" class="btn btn-primary btn-sm" }>Inserir dezenas</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/sorteios/{id}/gerar-dezenas(id=${sorteio.id})}">
+                        <button type="submit" class="btn btn-primary btn-sm" }>Gerar dezenas</button>
                     </form>
                 </td>
             </tr>

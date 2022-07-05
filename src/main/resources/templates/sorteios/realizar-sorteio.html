@@ -2,14 +2,18 @@
 <body>
 <div layout:fragment="content">
 
-    <form th:action="@{/sorteios}" method="POST" th:object="${sorteioRealizar}">
+    <form th:action="@{/sorteios}" th:method="put" th:object="${sorteioRealizar}">
         <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{valor}" />
+        <input type="hidden" th:field="*{dataHora}" />
+        <input type="hidden" th:field="*{hora}" />
+        <input type="hidden" th:field="*{apostas}" />
         <label class="form-label">Escolha os valores entre 1-60:</label>
 
-        <div th:each="dezena, rowStat : ${sorteioRealizar.dezenas}">
+        <div th:each="dezena, rowStat : ${sorteioRealizar.dezenasSorteadas}">
             <label for="teste" class="form-label"></label>
-            <input type="number" class="form-control" th:field="*{dezenas[__${rowStat.index}__]}" />
-            <p th:if="${#fields.hasErrors('*{dezenas[__${rowStat.index}__]}')}" th:errorclass="error" th:errors="*{*{dezenas[__${rowStat.index}__]}}" class="alert alert-danger" /><br /><br />
+            <input type="number" class="form-control" th:field="*{dezenasSorteadas[__${rowStat.index}__]}" />
+            <p th:if="${#fields.hasErrors('*{dezenasSorteadas[__${rowStat.index}__]}')}" th:errorclass="error" th:errors="*{*{dezenasSorteadas[__${rowStat.index}__]}}" class="alert alert-danger" /><br /><br />
         </div>
 
         <br/><br />
