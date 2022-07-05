@@ -16,7 +16,6 @@ public class SorteioService {
     public void save(Sorteio sorteio){
         sorteio.dezenasSorteadas = new ArrayList<Integer>();
         for (int i = 0; i < 6; i++){
-//            sorteio.dezenasSorteadas.add(new Random().nextInt(60) + 1);
             sorteio.dezenasSorteadas.add(0);
         }
 

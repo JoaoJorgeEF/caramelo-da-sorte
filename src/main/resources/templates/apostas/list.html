@@ -2,10 +2,19 @@
 
 <body>
 <div layout:fragment="content">
+    <table>
+        <td>
+            <form th:action="@{/apostas/form}" method="GET">
+                <button class="btn btn-primary" type="submit">Apostar</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/apostas/list-favoritas}" method="GET">
+                <button class="btn btn-primary" type="submit">Favoritas</button>
+            </form>
+        </td>
+    </table>
 
-    <form th:action="@{/apostas/form}" method="GET">
-        <button class="btn btn-primary" type="submit">Apostar</button>
-    </form>
     <br />
 
     <div th:if="${not #lists.isEmpty(apostas)}">
@@ -16,18 +25,25 @@
                 <th>Número</th>
                 <th>Preço</th>
                 <th>Quantidade de Dezenas</th>
+                <th>Dezenas</th>
                 <th>Sorteio</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="aposta : ${apostas}">
                 <td><a th:href="@{/apostas/{id}(id=${aposta.id})}" th:text="${aposta.id}"></a></td>
-<!--                <td th:text="${Preco(aposta.preco).values()}"></td>-->
                 <td th:text="${aposta.preco.getValue()}"></td>
                 <td th:text="${aposta.qtdeDezenas}"></td>
+                <td><span th:each="dezena : ${aposta.dezenas}" th:text="${dezena + ' | ' }"></span></td>
+                <td th:text="${#dates.format(aposta.sorteio.dataHora, 'dd/MM/yyyy')}"></td>
                 <td>
                     <form th:action="@{/apostas/{id}/delete(id=${aposta.id})}">
                         <button type="submit" class="btn btn-primary btn-sm" }>Excluir</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/apostas/{id}/save-favorita(id=${aposta.id})}">
+                        <button type="submit" class="btn btn-primary btn-sm" }>Favoritar</button>
                     </form>
                 </td>
             </tr>

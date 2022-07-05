@@ -32,7 +32,4 @@ public class Apostador extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "apostador")
     public List<Aposta> apostas;
-
-    @OneToMany(mappedBy = "apostador")
-    public List<Aposta> apostasFavoritas;
 }

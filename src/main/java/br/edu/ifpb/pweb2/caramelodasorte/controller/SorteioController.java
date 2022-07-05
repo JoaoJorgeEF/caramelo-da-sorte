@@ -47,7 +47,7 @@ public class SorteioController {
             mav.setViewName("sorteios/form");
             return mav;
         }
-        if (sorteio.getId() != 0){
+        if (sorteio.getId() != null){
             service.saveDezenas(sorteio);
         } else{
             service.save(sorteio);

@@ -23,11 +23,11 @@ public class Aposta extends BaseEntity<Long> {
 
     public Preco preco;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     public Apostador apostador;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     public Sorteio sorteio;
 
-
+    public boolean isFavorita;
 }

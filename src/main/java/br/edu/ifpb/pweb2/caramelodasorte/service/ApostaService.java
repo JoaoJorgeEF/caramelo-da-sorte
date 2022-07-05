@@ -7,6 +7,7 @@ import br.edu.ifpb.pweb2.caramelodasorte.model.Usuario;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ public class ApostaService {
     }
 
     public Aposta preSave(Aposta aposta) {
-
         aposta.preco = Preco.fromQtdeDezenas(aposta.qtdeDezenas);
         aposta.dezenas = new ArrayList<Integer>();
         for (int i = 0; i < aposta.getQtdeDezenas(); i++){
