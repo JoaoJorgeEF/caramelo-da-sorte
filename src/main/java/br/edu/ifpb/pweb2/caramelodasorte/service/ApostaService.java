@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class ApostaService {
@@ -29,6 +28,8 @@ public class ApostaService {
     }
 
     public Aposta preSave(Aposta aposta) {
+        aposta.dataDeRegistro = new Date();
+        aposta.getDataDeRegistro().setHours(0);
         aposta.preco = Preco.fromQtdeDezenas(aposta.qtdeDezenas);
         aposta.dezenas = new ArrayList<Integer>();
         for (int i = 0; i < aposta.getQtdeDezenas(); i++){

@@ -29,9 +29,6 @@ public class ApostaController {
     private SorteioService sorteioService;
 
     @Autowired
-    private SorteioRepository sorteioRepository;
-
-    @Autowired
     private ApostadorRepository apostadorRepository;
 
     @RequestMapping("/form")
@@ -79,7 +76,9 @@ public class ApostaController {
 
         service.save(foundAposta);
 
-        mav.addObject("apostas", service.getAll());
+        mav.addObject("apostas", service.getAll().stream()
+                .filter(a -> a.getApostador() != null && this.getCurrentApostador() != null &&
+                        a.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostas");
         mav.setViewName("apostas/list");
         return mav;
@@ -92,7 +91,9 @@ public class ApostaController {
 
         service.save(foundAposta);
 
-        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true).collect(Collectors.toList()));
+        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true &&
+                f.getApostador() != null && this.getCurrentApostador() != null &&
+                f.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostasFavoritas");
         mav.setViewName("apostas/list-favoritas");
         return mav;
@@ -111,7 +112,9 @@ public class ApostaController {
 
         service.save(aposta);
 
-        mav.addObject("apostas", service.getAll());
+        mav.addObject("apostas", service.getAll().stream()
+                .filter(a -> a.getApostador() != null && this.getCurrentApostador() != null &&
+                        a.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostas");
         mav.setViewName("apostas/list");
         return mav;
@@ -119,7 +122,9 @@ public class ApostaController {
 
     @GetMapping("/list")
     public ModelAndView listAll(ModelAndView mav) {
-        mav.addObject("apostas", service.getAll());
+        mav.addObject("apostas", service.getAll().stream()
+                .filter(a -> a.getApostador() != null && this.getCurrentApostador() != null &&
+                        a.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostas");
         mav.setViewName("apostas/list");
         return mav;
@@ -127,7 +132,9 @@ public class ApostaController {
 
     @GetMapping("/list-favoritas")
     public ModelAndView listFavoritas(ModelAndView mav) {
-        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true).collect(Collectors.toList()));
+        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true &&
+                f.getApostador() != null && this.getCurrentApostador() != null &&
+                f.getApostador().getId() == this.getCurrentApostador().getId()).collect(Collectors.toList()));
         mav.addObject("menu", "apostasFavoritas");
         mav.setViewName("apostas/list-favoritas");
         return mav;
@@ -148,12 +155,8 @@ public class ApostaController {
 
     private Apostador getCurrentApostador(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Apostador apostador = apostadorRepository.findByUserUsername(auth.getName());
+        String name = auth.getName();
+        Apostador apostador = apostadorRepository.findByUserUsername(name);
         return apostador;
-    }
-
-    private Sorteio getSorteio(Long id){
-        Sorteio sorteio = sorteioRepository.getReferenceById(id);
-        return sorteio;
     }
 }

@@ -6,6 +6,7 @@
     <form  th:action="@{/apostas}" method="POST" th:object="${apostaDezena}">
         <input type="hidden" th:field="*{id}" />
         <input type="hidden" th:field="*{qtdeDezenas}" />
+        <input type="hidden" th:field="*{dataDeRegistro}" />
         <input type="hidden" th:field="*{preco}" />
         <input type="hidden" th:field="*{apostador}" />
         <input type="hidden" th:field="*{sorteio}" />
