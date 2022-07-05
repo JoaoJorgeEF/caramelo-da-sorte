@@ -101,7 +101,7 @@ public class ApostaController {
         Aposta foundAposta = service.get(id);
 
         Aposta aposta = new Aposta();
-        aposta.setDezenas(foundAposta.getDezenas());
+        aposta.setDezenas(new ArrayList<Integer>(foundAposta.getDezenas()));
         aposta.setPreco(foundAposta.getPreco());
         aposta.setApostador(foundAposta.getApostador());
         aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
@@ -149,23 +149,4 @@ public class ApostaController {
         Apostador apostador = apostadorRepository.findByUserUsername(auth.getName());
         return apostador;
     }
-
-//    @RequestMapping(value = "/{id}/reaproveitar-favorita/{apostadorId}")
-//    public ModelAndView saveFavorita(@PathVariable(value = "id") Long id, @PathVariable(value = "id") Long apostadorId, ModelAndView mav) {
-//        Aposta foundAposta = service.get(id);
-//        Aposta aposta = new Aposta();
-//        aposta.setDezenas(foundAposta.getDezenas());
-//        aposta.setPreco(foundAposta.getPreco());
-//        aposta.setApostador(foundAposta.getApostador());
-//        aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
-//        aposta.setSorteio(foundAposta.getSorteio());
-//
-//        service.save(aposta);
-//
-//        mav.addObject("apostas", service.getAll());
-//        mav.addObject("menu", "apostas");
-//        mav.setViewName("apostas/list");
-//        return mav;
-//    }
-
 }
