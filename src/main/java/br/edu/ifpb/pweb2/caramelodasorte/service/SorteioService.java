@@ -16,10 +16,22 @@ public class SorteioService {
     public void save(Sorteio sorteio){
         sorteio.dezenasSorteadas = new ArrayList<Integer>();
         for (int i = 0; i < 6; i++){
-            sorteio.dezenasSorteadas.add(new Random().nextInt(60) + 1);
+            sorteio.dezenasSorteadas.add(0);
         }
 
         repo.save(sorteio);
+    }
+
+    public Sorteio saveDezenas(Sorteio sorteio){
+        Optional<Sorteio> foundOSorteio = repo.findById(sorteio.getId());
+        Sorteio foundSorteio = null;
+        if (foundOSorteio.isPresent()){
+            foundSorteio = foundOSorteio.get();
+            foundSorteio.setDezenasSorteadas(sorteio.getDezenasSorteadas());
+            repo.save(foundSorteio);
+        }
+
+        return foundSorteio;
     }
 
     public List<Sorteio> getAll(){

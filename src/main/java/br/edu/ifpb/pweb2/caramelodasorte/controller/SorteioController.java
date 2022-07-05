@@ -7,16 +7,15 @@ import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/sorteios")
@@ -37,7 +36,7 @@ public class SorteioController {
         Sorteio sorteio = service.get(id);
 
         mav.addObject("sorteioRealizar", sorteio);
-        mav.setViewName("sorteio/{id}/realizar-sorteio");
+        mav.setViewName("sorteios/realizar-sorteio");
         return mav;
     }
 
@@ -48,9 +47,29 @@ public class SorteioController {
             mav.setViewName("sorteios/form");
             return mav;
         }
-        service.save(sorteio);
+        if (sorteio.getId() != null){
+            service.saveDezenas(sorteio);
+        } else{
+            service.save(sorteio);
+        }
         mav.setViewName("redirect:sorteios/list");
         attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
+        return mav;
+    }
+
+    @RequestMapping(value = "/{id}/gerar-dezenas")
+    public ModelAndView saveDezenas(@PathVariable(value = "id") Long id, ModelAndView mav) {
+        Sorteio sorteio = service.get(id);
+        ArrayList<Integer> dezenas = new ArrayList<>();
+        for (int dezena: sorteio.getDezenasSorteadas()) {
+            dezenas.add(new Random().nextInt(60) + 1);
+        }
+        sorteio.setDezenasSorteadas(dezenas);
+        service.saveDezenas(sorteio);
+
+        mav.addObject("sorteios", service.getAll());
+        mav.addObject("menu", "sorteios");
+        mav.setViewName("sorteios/list");
         return mav;
     }
 

@@ -1,12 +1,12 @@
 package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
-import br.edu.ifpb.pweb2.caramelodasorte.model.Admin;
-import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
-import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
-import br.edu.ifpb.pweb2.caramelodasorte.model.Usuario;
+import br.edu.ifpb.pweb2.caramelodasorte.model.*;
+import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostadorRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.service.ApostaService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/apostas")
@@ -27,6 +26,9 @@ public class ApostaController {
 
     @Autowired
     private SorteioService sorteioService;
+
+    @Autowired
+    private ApostadorRepository apostadorRepository;
 
     @RequestMapping("/form")
     public ModelAndView getForm(Aposta aposta, ModelAndView mav) {
@@ -51,9 +53,12 @@ public class ApostaController {
             return mav;
         }
         if (aposta.getDezenas().isEmpty()){
+            Apostador apostador = this.getCurrentApostador();
+            aposta.setApostador(apostador);
+            Sorteio sorteio = sorteioService.get(aposta.getSorteio().getId());
+            aposta.setSorteio(sorteio);
             Aposta ret = service.preSave(aposta);
-            System.out.println(ret);
-            mav.addObject("apostaDezena", ret);
+            mav.addObject("apostaDezena", service.get(aposta.getId()));
             mav.setViewName("apostas/form-dezenas");
             attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
             return mav;
@@ -65,11 +70,64 @@ public class ApostaController {
         return mav;
     }
 
+    @RequestMapping(value = "/{id}/save-favorita")
+    public ModelAndView saveFavorita(@PathVariable(value = "id") Long id, ModelAndView mav) {
+        Aposta foundAposta = service.get(id);
+        foundAposta.setFavorita(true);
+
+        service.save(foundAposta);
+
+        mav.addObject("apostas", service.getAll());
+        mav.addObject("menu", "apostas");
+        mav.setViewName("apostas/list");
+        return mav;
+    }
+
+    @RequestMapping(value = "/{id}/remove-favorita")
+    public ModelAndView removeFavorita(@PathVariable(value = "id") Long id, ModelAndView mav) {
+        Aposta foundAposta = service.get(id);
+        foundAposta.setFavorita(false);
+
+        service.save(foundAposta);
+
+        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true).collect(Collectors.toList()));
+        mav.addObject("menu", "apostasFavoritas");
+        mav.setViewName("apostas/list-favoritas");
+        return mav;
+    }
+
+    @RequestMapping(value = "/{id}/reaproveitar-favorita")
+    public ModelAndView reaproveitarFavorita(@PathVariable(value = "id") Long id, ModelAndView mav) {
+        Aposta foundAposta = service.get(id);
+
+        Aposta aposta = new Aposta();
+        aposta.setDezenas(foundAposta.getDezenas());
+        aposta.setPreco(foundAposta.getPreco());
+        aposta.setApostador(foundAposta.getApostador());
+        aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
+        aposta.setSorteio(foundAposta.getSorteio());
+
+        service.save(aposta);
+
+        mav.addObject("apostas", service.getAll());
+        mav.addObject("menu", "apostas");
+        mav.setViewName("apostas/list");
+        return mav;
+    }
+
     @GetMapping("/list")
     public ModelAndView listAll(ModelAndView mav) {
         mav.addObject("apostas", service.getAll());
         mav.addObject("menu", "apostas");
         mav.setViewName("apostas/list");
+        return mav;
+    }
+
+    @GetMapping("/list-favoritas")
+    public ModelAndView listFavoritas(ModelAndView mav) {
+        mav.addObject("apostasFavoritas", service.getAll().stream().filter(f -> f.isFavorita == true).collect(Collectors.toList()));
+        mav.addObject("menu", "apostasFavoritas");
+        mav.setViewName("apostas/list-favoritas");
         return mav;
     }
 
@@ -85,5 +143,29 @@ public class ApostaController {
     public List<Sorteio> getUserOptions() {
         return sorteioService.getAllWithFutureDate(new Date(System.currentTimeMillis()));
     }
+
+    private Apostador getCurrentApostador(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Apostador apostador = apostadorRepository.findByUserUsername(auth.getName());
+        return apostador;
+    }
+
+//    @RequestMapping(value = "/{id}/reaproveitar-favorita/{apostadorId}")
+//    public ModelAndView saveFavorita(@PathVariable(value = "id") Long id, @PathVariable(value = "id") Long apostadorId, ModelAndView mav) {
+//        Aposta foundAposta = service.get(id);
+//        Aposta aposta = new Aposta();
+//        aposta.setDezenas(foundAposta.getDezenas());
+//        aposta.setPreco(foundAposta.getPreco());
+//        aposta.setApostador(foundAposta.getApostador());
+//        aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
+//        aposta.setSorteio(foundAposta.getSorteio());
+//
+//        service.save(aposta);
+//
+//        mav.addObject("apostas", service.getAll());
+//        mav.addObject("menu", "apostas");
+//        mav.setViewName("apostas/list");
+//        return mav;
+//    }
 
 }
