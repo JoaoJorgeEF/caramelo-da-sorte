@@ -1,26 +1,55 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:insert="~{layout/layout}" th:with="titulo='Home'">
+ <head>
+     <link rel="stylesheet" href="../static/css/home.css">
+ </head>
 
 <body>
 <div layout:fragment="content">
 
     <h2>Caramelo da Sorte</h2>
 
-    <p>Este é o Bitbank, o seu banco digital muito mais acessível.</p>
+    <p>Sua aposta com pedigree!</p>
 
-    <div>Como administrador, você poderá:</div>
+    <div>Como apostador, você poderá:</div>
     <ul>
-        <li>Adicionar ou consultar correntistas cadastrados use o menu <strong>Correntistas</strong></li>
-        <li>Adicionar ou consultar contas cadastradas use o menu <strong>Contas</strong></li>
+        <li>Cadastrar apostas de 6 à 10 dezenas</li>
+        <li>Favoritar apostas</li>
+        <li>Gerar novas apostas com as mesmas dezenas das favoritas</li>
     </ul>
 
-    <div>Como cliente, você poderá realizar operações na sua conta:</div>
-    <ul>
-        <li>Realizar créditos</li>
-        <li>Realizar pagamentos</li>
-    </ul>
+    <h3>TABELA DE PREÇOS</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Qtde Dezenas</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>6</td>
+                <td>R$ 3.00</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>R$ 15.00</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>R$ 90.00</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>R$ 300.00</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>R$ 1200.00</td>
+            </tr>
+        </tbody>
+
+    </table>
 </div>
 
-
-<!--<h1>BEM VINDO AO CARAMELO DA SORTE, AU AU!</h1>-->
 </body>
 </html>

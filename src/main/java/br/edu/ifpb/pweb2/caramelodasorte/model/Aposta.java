@@ -35,4 +35,6 @@ public class Aposta extends BaseEntity<Long> {
     public Sorteio sorteio;
 
     public boolean isFavorita;
+
+    public boolean isVencedora;
 }

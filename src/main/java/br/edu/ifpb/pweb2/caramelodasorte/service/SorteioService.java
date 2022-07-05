@@ -1,17 +1,23 @@
 package br.edu.ifpb.pweb2.caramelodasorte.service;
 
+import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
+import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SorteioService {
 
     @Autowired
     private SorteioRepository repo;
+
+    @Autowired
+    private ApostaRepository apostaRepo;
 
     public void save(Sorteio sorteio){
         sorteio.dezenasSorteadas = new ArrayList<Integer>();
@@ -45,6 +51,18 @@ public class SorteioService {
         }
 
         return null;
+    }
+
+    public void checkWinner(Long id){
+        List<Aposta> apostas = apostaRepo.findBySorteioIdOrderByDataDeRegistro(id);
+        Sorteio sorteio = get(id);
+
+        for (Aposta aposta : apostas) {
+            List<Integer> acertos = aposta.getDezenas().stream().filter(d -> sorteio.getDezenasSorteadas().contains(d)).collect(Collectors.toList());
+            if (acertos.size() >= 6) aposta.setVencedora(true);
+            break;
+        }
+        apostaRepo.saveAll(apostas);
     }
 
     public List<Sorteio> getAllWithFutureDate(Date date){

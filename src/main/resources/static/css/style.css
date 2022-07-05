@@ -1,5 +1,5 @@
 .logo-bar {
-    background-color: #47bcff;
+    background-color: #CB8748;
 
 }
 
@@ -11,4 +11,8 @@
 .logo-font {
     font-family: 'Fugaz One', cursive;
     font-size: 2.3rem;
+}
+
+.navbar-custom {
+    background-color: #CB8748;
 }
