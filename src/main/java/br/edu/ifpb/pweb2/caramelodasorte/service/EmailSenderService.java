@@ -11,14 +11,14 @@ public class EmailSenderService {
     @Autowired
     JavaMailSender mailSender;
 
-    public void sendEmail(String toEmail){
+    public void sendEmail(String toEmail, String body, String subject){
 
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom("caramelodasorte@gmail.com");
         message.setTo(toEmail);
-        message.setText("Fala, pipoca! pitbull tá na pista! Au! Au! Um sorteio foi realizado! Corra para ver o resultado! ruf! ruf!");
-        message.setSubject("Um Sorteio foi realizado!!");
+        message.setText(body);
+        message.setSubject(subject);
         mailSender.send(message);
 
     }

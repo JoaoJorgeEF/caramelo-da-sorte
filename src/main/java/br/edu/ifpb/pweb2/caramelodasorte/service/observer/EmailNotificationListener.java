@@ -1,4 +1,4 @@
-package br.edu.ifpb.pweb2.caramelodasorte.service;
+package br.edu.ifpb.pweb2.caramelodasorte.service.observer;
 
 import br.edu.ifpb.pweb2.caramelodasorte.service.EmailSenderService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EventListener;
@@ -15,6 +15,8 @@ public class EmailNotificationListener implements EventListener {
 
     @Override
     public void update(String email) {
-        emailSenderService.sendEmail(email);
+        String body = "Fala, pipoca! pitbull tá na pista! Au! Au! Um sorteio foi realizado! Corra para ver o resultado! ruf! ruf!";
+        String subject = "Um Sorteio foi realizado!!";
+        emailSenderService.sendEmail(email, body, subject );
     }
 }

@@ -1,7 +1,7 @@
 package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
-import br.edu.ifpb.pweb2.caramelodasorte.service.EmailNotificationListener;
+import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EmailNotificationListener;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.proxy.ImpSorteioProxy;
 import org.springframework.beans.factory.annotation.Autowired;

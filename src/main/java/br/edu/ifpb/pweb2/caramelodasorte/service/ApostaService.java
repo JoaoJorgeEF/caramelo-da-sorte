@@ -4,6 +4,7 @@ import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Preco;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EmailNotificationListener;
 import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EventManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

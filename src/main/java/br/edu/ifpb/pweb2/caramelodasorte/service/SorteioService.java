@@ -4,6 +4,8 @@ import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.service.chainOfResponsability.EmailNotificationMiddleware;
+import br.edu.ifpb.pweb2.caramelodasorte.service.chainOfResponsability.SorteioMiddleware;
 import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EventManager;
 import br.edu.ifpb.pweb2.caramelodasorte.service.proxy.SorteioProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,12 @@ public class SorteioService implements SorteioProxy {
 
     @Autowired
     private EventManager eventManager;
+
+    @Autowired
+    private EmailNotificationMiddleware emailNotificationMiddleware;
+
+    @Autowired
+    private SorteioMiddleware sorteioMiddleware;
 
     public void save(Sorteio sorteio){
         sorteio.dezenasSorteadas = new ArrayList<Integer>();
@@ -59,15 +67,9 @@ public class SorteioService implements SorteioProxy {
     }
 
     public void checkWinner(Long id){
-        List<Aposta> apostas = apostaRepo.findBySorteioIdOrderByDataDeRegistro(id);
+        sorteioMiddleware.linkWith(emailNotificationMiddleware);
         Sorteio sorteio = get(id);
-
-        for (Aposta aposta : apostas) {
-            List<Integer> acertos = aposta.getDezenas().stream().filter(d -> sorteio.getDezenasSorteadas().contains(d)).collect(Collectors.toList());
-            if (acertos.size() >= 6) aposta.setVencedora(true);
-            break;
-        }
-        apostaRepo.saveAll(apostas);
+        sorteioMiddleware.check(sorteio, null);
         eventManager.notify("email");
     }
 
