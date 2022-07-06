@@ -27,11 +27,11 @@
                 <td th:text="${apostador.cpf}"></td>
                 <td th:text="${apostador.email}"></td>
                 <td th:text="${apostador.user != null ? apostador.user.username : 'Sem usuário'}"></td>
-                <td>
-                    <form th:action="@{/apostadores/{id}/delete(id=${apostador.id})}">
-                        <button type="submit" class="btn btn-primary btn-sm" }>Excluir</button>
-                    </form>
-                </td>
+<!--                <td>-->
+<!--                    <form th:action="@{/apostadores/{id}/delete(id=${apostador.id})}">-->
+<!--                        <button type="submit" class="btn btn-primary btn-sm" }>Excluir</button>-->
+<!--                    </form>-->
+<!--                </td>-->
             </tr>
             </tbody>
         </table>

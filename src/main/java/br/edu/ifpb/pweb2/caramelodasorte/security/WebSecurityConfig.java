@@ -42,7 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(encoder);
-//                .withUser(User.builder().username("joao").password(encoder.encode("joao123")).roles("CLIENTE").build())
+                //.withUser(User.builder().username("joao").password(encoder.encode("joao123")).roles("CLIENTE").build())
+//                .withUser(User.builder().username("hugo").password(encoder.encode("hugo123")).roles("CLIENTE").build())
+//                .withUser(User.builder().username("matheus").password(encoder.encode("matheus123")).roles("CLIENTE").build())
+//                .withUser(User.builder().username("pedro").password(encoder.encode("pedro123")).roles("CLIENTE").build())
+//                .withUser(User.builder().username("palmeiras").password(encoder.encode("palmeiras123")).roles("CLIENTE").build());
 //                .withUser(User.builder().username("admin").password(encoder.encode("admin123"))
 //                        .roles("CLIENTE", "ADMIN").build());
 
