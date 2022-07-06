@@ -16,9 +16,8 @@ public class EmailNotificationMiddleware extends Middleware {
     public Boolean check(Sorteio sorteio, Apostador apostador) {
         String body = "Fala, pipoca! pitbull tá na pista! Au! Au! Um sorteio foi realizado e adivinha?! Você é o ganhador!!! ruf ruf !! Seu prêmio é de: R$ " + sorteio.getValor() + " Vá curtir sua cachorrada, ruf!! ruf !!";
         String subject = "Parabéns!! Você ganhou um sorteio!!";
-        if(apostador.getEmail() != null){
-            emailSenderService.sendEmail(apostador.getEmail(), body, subject);
-        }
+        emailSenderService.sendEmail(apostador.getEmail(), body, subject);
+
         return checkNext(sorteio, apostador);
     }
 }
