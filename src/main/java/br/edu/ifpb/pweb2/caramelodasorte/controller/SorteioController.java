@@ -1,9 +1,8 @@
 package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
-import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
-import br.edu.ifpb.pweb2.caramelodasorte.model.Apostador;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
+import br.edu.ifpb.pweb2.caramelodasorte.service.proxy.ImpSorteioProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,8 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Controller
@@ -23,6 +20,9 @@ public class SorteioController {
 
     @Autowired
     private SorteioService service;
+
+    @Autowired
+    private ImpSorteioProxy impSorteioProxy;
 
     @RequestMapping("/form")
     public ModelAndView getForm(Sorteio sorteio, ModelAndView mav) {
@@ -53,6 +53,7 @@ public class SorteioController {
         } else{
             service.save(sorteio);
         }
+        impSorteioProxy.refreshCache();
         mav.setViewName("redirect:sorteios/list");
         attrs.addFlashAttribute("mensagem", "Sorteio cadastrado com sucesso!");
         return mav;
@@ -70,7 +71,7 @@ public class SorteioController {
         service.saveDezenas(sorteio);
         service.checkWinner(id);
 
-        mav.addObject("sorteios", service.getAll());
+        mav.addObject("sorteios", service.getAllWithFutureDate());
         mav.addObject("menu", "sorteios");
         mav.setViewName("sorteios/list");
         return mav;
@@ -78,7 +79,7 @@ public class SorteioController {
 
     @GetMapping("/list")
     public ModelAndView listAll(ModelAndView mav) {
-        mav.addObject("sorteios", service.getAll());
+        mav.addObject("sorteios", service.getAllWithFutureDate());
         mav.addObject("menu", "sorteios");
         mav.setViewName("sorteios/list");
         return mav;
@@ -91,7 +92,7 @@ public class SorteioController {
             mav.addObject("sorteio", sorteio);
             mav.setViewName("sorteios/form");
         } else {
-            mav.addObject("sorteios", service.getAll());
+            mav.addObject("sorteios", service.getAllWithFutureDate());
             mav.addObject("menu", "sorteios");
             mav.addObject("mensagem", "Sorteio com id=" + id + " não encontrado!");
             mav.setViewName("sorteios/list");

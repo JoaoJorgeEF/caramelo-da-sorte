@@ -4,6 +4,7 @@ import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.service.proxy.SorteioProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class SorteioService {
+public class SorteioService implements SorteioProxy {
 
     @Autowired
     private SorteioRepository repo;
@@ -40,7 +41,7 @@ public class SorteioService {
         return foundSorteio;
     }
 
-    public List<Sorteio> getAll(){
+    public List<Sorteio> getAllWithFutureDate(){
         return repo.findAll();
     }
 

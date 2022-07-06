@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CarameloDaSorteApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(CarameloDaSorteApplication.class, args);
+
     }
 
 }

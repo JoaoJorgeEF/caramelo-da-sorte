@@ -12,4 +12,9 @@
 **Novas Regras de negócio:**
  -
 
-    
+
+
+- [x] Singleton
+- [ ] Proxy
+- [ ] Chain of Responsability
+- [ ] Observer
