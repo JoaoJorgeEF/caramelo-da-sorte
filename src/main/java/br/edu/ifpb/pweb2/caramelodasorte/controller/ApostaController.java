@@ -4,6 +4,8 @@ import br.edu.ifpb.pweb2.caramelodasorte.model.*;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostadorRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.service.ApostaService;
+import br.edu.ifpb.pweb2.caramelodasorte.service.EmailNotificationListener;
+import br.edu.ifpb.pweb2.caramelodasorte.service.EmailSenderService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.proxy.ImpSorteioProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class ApostaController {
 
     @Autowired
     private ApostadorRepository apostadorRepository;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+    @Autowired
+    private EmailNotificationListener emailNotificationListener;
 
     @RequestMapping("/form")
     public ModelAndView getForm(Aposta aposta, ModelAndView mav) {

@@ -4,6 +4,7 @@ import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EventManager;
 import br.edu.ifpb.pweb2.caramelodasorte.service.proxy.SorteioProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class SorteioService implements SorteioProxy {
 
     @Autowired
     private ApostaRepository apostaRepo;
+
+    @Autowired
+    private EventManager eventManager;
 
     public void save(Sorteio sorteio){
         sorteio.dezenasSorteadas = new ArrayList<Integer>();
@@ -64,6 +68,7 @@ public class SorteioService implements SorteioProxy {
             break;
         }
         apostaRepo.saveAll(apostas);
+        eventManager.notify("email");
     }
 
     public List<Sorteio> getAllWithFutureDate(Date date){

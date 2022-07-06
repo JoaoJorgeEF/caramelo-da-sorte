@@ -2,16 +2,12 @@ package br.edu.ifpb.pweb2.caramelodasorte.service;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Preco;
-import br.edu.ifpb.pweb2.caramelodasorte.model.Sorteio;
-import br.edu.ifpb.pweb2.caramelodasorte.model.Usuario;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
+import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EventManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -22,6 +18,12 @@ public class ApostaService {
 
     @Autowired
     private SorteioRepository sorteioRepo;
+
+    @Autowired
+    private EventManager eventManager;
+
+    @Autowired
+    private EmailNotificationListener emailNotificationListener;
 
     public List<Aposta> getAll(){
         return repo.findAll();
@@ -35,7 +37,7 @@ public class ApostaService {
         for (int i = 0; i < aposta.getQtdeDezenas(); i++){
             aposta.dezenas.add(0);
         }
-
+        eventManager.subscribe("email", aposta.getApostador().getEmail(), emailNotificationListener);
         return repo.save(aposta);
     }
 
@@ -48,6 +50,7 @@ public class ApostaService {
     }
 
     public void save(Aposta aposta) {
+
         repo.save(aposta);
     }
 
