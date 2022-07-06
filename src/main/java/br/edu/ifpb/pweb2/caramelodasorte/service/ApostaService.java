@@ -1,7 +1,9 @@
 package br.edu.ifpb.pweb2.caramelodasorte.service;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.Aposta;
+import br.edu.ifpb.pweb2.caramelodasorte.model.Apostador;
 import br.edu.ifpb.pweb2.caramelodasorte.model.Preco;
+import br.edu.ifpb.pweb2.caramelodasorte.model.factory.ApostadorFactory;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostaRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EmailNotificationListener;
@@ -38,7 +40,9 @@ public class ApostaService {
         for (int i = 0; i < aposta.getQtdeDezenas(); i++){
             aposta.dezenas.add(0);
         }
-        eventManager.subscribe("email", aposta.getApostador().getEmail(), emailNotificationListener);
+
+        Apostador apostador = ApostadorFactory.checkAndInstantiate(aposta.getApostador());
+        eventManager.subscribe("email", apostador.getEmail(), emailNotificationListener);
         return repo.save(aposta);
     }
 

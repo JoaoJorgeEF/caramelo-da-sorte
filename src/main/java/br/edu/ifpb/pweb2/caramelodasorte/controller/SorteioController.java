@@ -13,7 +13,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/sorteios")
@@ -66,11 +69,12 @@ public class SorteioController {
     @RequestMapping(value = "/{id}/gerar-dezenas")
     public ModelAndView saveDezenas(@PathVariable(value = "id") Long id, ModelAndView mav) {
         Sorteio sorteio = service.get(id);
-        ArrayList<Integer> dezenas = new ArrayList<>();
-        for (int dezena: sorteio.getDezenasSorteadas()) {
-            dezenas.add(new Random().nextInt(60) + 1);
-        }
-        sorteio.setDezenasSorteadas(dezenas);
+//        ArrayList<Integer> dezenas = new ArrayList<>();
+        List<Integer> dezenasSorteadas = Arrays.stream(new Random().ints(1,60).distinct().limit(6).toArray()).boxed().collect(Collectors.toList()) ;
+//        for (int dezena: sorteio.getDezenasSorteadas()) {
+////            dezenas.add(new Random().nextInt(60) + 1);
+//        }
+        sorteio.setDezenasSorteadas(dezenasSorteadas);
 
         service.saveDezenas(sorteio);
         service.checkWinner(id);

@@ -120,6 +120,8 @@ public class ApostaController {
         aposta.setApostador(foundAposta.getApostador());
         aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
         aposta.setSorteio(foundAposta.getSorteio());
+        aposta.dataDeRegistro = new Date();
+        aposta.getDataDeRegistro().setHours(0);
 
         service.save(aposta);
 
