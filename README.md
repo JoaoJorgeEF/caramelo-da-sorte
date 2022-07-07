@@ -1,13 +1,13 @@
-#Caramelo da Sorte
+# Caramelo da Sorte
 
-###Equipe
+### Equipe
 * João Jorge Evangelista Fernandes
 * Hugo Leonardo Penha de Sousa
 * Matheus David Araujo Santos
-###Sobre
+### Sobre
 Projeto de loteria web que compreende as disciplinas de `PWBII` e `Padrões de Projeto` utilizando Spring Boot + Thymeleaf + Postgres.
 
-###Como rodar
+### Como rodar
 
 Na pasta `./docker` rodar o comando abaixo para subir um container contendo a base de dados postgres:
 
