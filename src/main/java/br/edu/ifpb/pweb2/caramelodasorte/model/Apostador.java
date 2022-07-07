@@ -18,6 +18,9 @@ public class Apostador extends BaseEntity<Long> {
     @Column(nullable = false, length = 70)
     public String nome;
 
+    @Column(name = "email", nullable = false)
+    public String email;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_de_nascimento", nullable = false, columnDefinition = "DATE")
     public Date dataDeNascimento;

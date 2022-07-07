@@ -2,9 +2,11 @@ package br.edu.ifpb.pweb2.caramelodasorte.controller;
 
 import br.edu.ifpb.pweb2.caramelodasorte.model.*;
 import br.edu.ifpb.pweb2.caramelodasorte.repository.ApostadorRepository;
-import br.edu.ifpb.pweb2.caramelodasorte.repository.SorteioRepository;
 import br.edu.ifpb.pweb2.caramelodasorte.service.ApostaService;
+import br.edu.ifpb.pweb2.caramelodasorte.service.observer.EmailNotificationListener;
+import br.edu.ifpb.pweb2.caramelodasorte.service.EmailSenderService;
 import br.edu.ifpb.pweb2.caramelodasorte.service.SorteioService;
+import br.edu.ifpb.pweb2.caramelodasorte.service.proxy.ImpSorteioProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +31,16 @@ public class ApostaController {
     private SorteioService sorteioService;
 
     @Autowired
+    private ImpSorteioProxy impSorteioProxy;
+
+    @Autowired
     private ApostadorRepository apostadorRepository;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+    @Autowired
+    private EmailNotificationListener emailNotificationListener;
 
     @RequestMapping("/form")
     public ModelAndView getForm(Aposta aposta, ModelAndView mav) {
@@ -109,6 +120,8 @@ public class ApostaController {
         aposta.setApostador(foundAposta.getApostador());
         aposta.setQtdeDezenas(foundAposta.getQtdeDezenas());
         aposta.setSorteio(foundAposta.getSorteio());
+        aposta.dataDeRegistro = new Date();
+        aposta.getDataDeRegistro().setHours(0);
 
         service.save(aposta);
 
@@ -150,7 +163,7 @@ public class ApostaController {
 
     @ModelAttribute("sorteios")
     public List<Sorteio> getSorteiosOptions() {
-        return sorteioService.getAllWithFutureDate(new Date(System.currentTimeMillis()));
+        return impSorteioProxy.getAllWithFutureDate();
     }
 
     private Apostador getCurrentApostador(){

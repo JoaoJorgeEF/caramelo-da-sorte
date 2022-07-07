@@ -10,6 +10,10 @@
         <input type="text" th:field="*{nome}" class="form-control" />
         <p th:if="${#fields.hasErrors('nome')}" th:errorclass="error" th:errors="*{nome}" class="alert alert-danger" /><br /><br />
 
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" th:field="*{email}" class="form-control" />
+        <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}" class="alert alert-danger" /><br /><br />
+
         <label for="dataDeNascimento" class="form-label">Data de Nascimento:</label>
         <input type="date" id="dataDeNascimento" name="dataDeNascimento" th:field="*{dataDeNascimento}" class="form-control" />
         <p th:if="${#fields.hasErrors('dataDeNascimento')}" th:errorclass="error" th:errors="*{dataDeNascimento}" class="alert alert-danger" /><br /><br />
